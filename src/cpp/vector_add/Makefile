@@ -5,7 +5,7 @@
 # clang/llvm
 # RISCVCC=clang  --target=riscv64
 # GNU Compiler Collection (GCC)
-RISCVCC=riscv64-unknown-elf-gcc 
+RISCVCC=riscv64-unknown-elf-g++ 
 
 # architectural parameters for the simulation
 # width of vector registers (VLEN)
@@ -28,10 +28,13 @@ SIMULATOR=spike --isa=rv64gcv_zicntr_zihpm $(PK_PATH)
 #New qemu command to enable sys register reads for cycles and instructions
 #SIMULATOR=qemu-system-riscv64 -cpu rv64gcv -machine virt -nographic -bios none -kernel 
 
-vector_add_intrinsics.o: vector_add_intrinsics.c
+vector_add_intrinsics.o: vector_add_intrinsics.cpp
 	$(RISCVCC) -O2 -march=rv64gcv -mabi=lp64d -c -o $@ $^
 
-bench_vector_add: bench_vector_add.c vector_add_intrinsics.o
+vector_add_ref.o: vector_add_ref.cpp
+	$(RISCVCC) -O2 -march=rv64gcv -mabi=lp64d -c -o $@ $^
+	
+bench_vector_add: bench_vector_add.cpp vector_add_intrinsics.o vector_add_ref.o
 	 $(RISCVCC) -O2 -march=rv64gcv -mabi=lp64d $^ -o $@
 
 sim_bench_vector_add: bench_vector_add
