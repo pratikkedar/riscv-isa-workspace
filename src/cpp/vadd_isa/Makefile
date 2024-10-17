@@ -12,7 +12,7 @@ RISCVCC=riscv64-unknown-elf-g++
 VLEN?=128
 
 # path to proxy-kernel (pk)
-PK_PATH=/home/pratik/riscv/riscv64-unknown-elf/bin/pk64 
+PK_PATH=/home/mips/test-pratik/riscv-built-tools/riscv64-unknown-elf/bin/pk64 
 
 # SIMULATOR
 # Available options in the Docker (uncomment one)
@@ -21,9 +21,9 @@ PK_PATH=/home/pratik/riscv/riscv64-unknown-elf/bin/pk64
 #SIMULATOR=spike --isa=rv64gcv_zicntr_zihpm --varch=vlen:$(VLEN),elen:64 $(PK_PATH)
 
 #varch option doesnt work, so removing it from spike 
-SIMULATOR=spike --isa=rv64gcv_zicntr_zihpm $(PK_PATH)
+#SIMULATOR=spike --isa=rv64gcv_zicntr_zihpm $(PK_PATH)
 # Original qemu command
-#SIMULATOR=qemu-riscv64 -cpu rv64,v=on,vext_spec=v1.0,vlen=1024,rvv_ta_all_1s=on
+SIMULATOR=qemu-riscv64 -cpu rv64,v=on,vext_spec=v1.0,vlen=1024,rvv_ta_all_1s=on
 
 #New qemu command to enable sys register reads for cycles and instructions
 #SIMULATOR=qemu-system-riscv64 -cpu rv64gcv -machine virt -nographic -bios none -kernel 
